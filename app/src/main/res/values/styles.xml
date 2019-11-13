@@ -8,4 +8,22 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="heading">
+        <item name="android:textColor">@color/colorPrimaryDark</item>
+        <item name="android:textSize">30dp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="profiletext">
+        <item name="android:textColor">@color/colorPrimaryDark</item>
+        <item name="android:textSize">27dp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="text">
+        <item name="android:textColor">@color/colorPrimaryDark</item>
+        <item name="android:textSize">23dp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
 </resources>

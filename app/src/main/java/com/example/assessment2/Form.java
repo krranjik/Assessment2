@@ -3,6 +3,7 @@ package com.example.assessment2;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Patterns;
@@ -16,13 +17,18 @@ import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.example.assessment2.Module.User;
+
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
 public class Form extends AppCompatActivity implements RadioGroup.OnCheckedChangeListener, View.OnClickListener {
 
+    List<User> user = new ArrayList<>();
     EditText name, dob, phone, email, imgg;
     RadioGroup radioGroup;
     Spinner spin;
@@ -34,9 +40,9 @@ public class Form extends AppCompatActivity implements RadioGroup.OnCheckedChang
     DatePickerDialog.OnDateSetListener mydatepicker = new DatePickerDialog.OnDateSetListener() {
         @Override
         public void onDateSet(DatePicker datePicker, int year, int month, int dayOfMonth) {
-            calendar.set(year, Calendar.YEAR);
-            calendar.set(month, Calendar.MONTH);
-            calendar.set(dayOfMonth, Calendar.DAY_OF_MONTH);
+            calendar.set(year, Calendar.YEAR, year);
+            calendar.set(month, Calendar.MONTH, month);
+            calendar.set(dayOfMonth, Calendar.DAY_OF_MONTH, dayOfMonth);
             String mydateFormat = "dd-MM-y";
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat(mydateFormat, Locale.getDefault());
             dob.setText(simpleDateFormat.format(calendar.getTime()));
@@ -54,6 +60,7 @@ public class Form extends AppCompatActivity implements RadioGroup.OnCheckedChang
         phone = findViewById(R.id.phone);
         email = findViewById(R.id.email);
         radioGroup = findViewById(R.id.rg);
+        spin = findViewById(R.id.spinner);
         imgg = findViewById(R.id.img);
         btnsubmit = findViewById(R.id.btnsubmit);
         btnview = findViewById(R.id.btnview);
@@ -64,6 +71,7 @@ public class Form extends AppCompatActivity implements RadioGroup.OnCheckedChang
         setSpinnerValue();
         btnsubmit.setOnClickListener(this);
         dob.setOnClickListener(this);
+        btnview.setOnClickListener(this);
     }
 
     private void setSpinnerValue() {
@@ -89,6 +97,8 @@ public class Form extends AppCompatActivity implements RadioGroup.OnCheckedChang
         phone1 = phone.getText().toString();
         email1 = email.getText().toString();
         imgg1 = imgg.getText().toString();
+        String imggg = "@drawable/" + imgg1;
+        int resID = getResources().getIdentifier(imggg, null, getPackageName());
 
         if (v.getId() == R.id.dob) {
             new DatePickerDialog(this, mydatepicker, calendar.get(Calendar.YEAR),
@@ -96,11 +106,14 @@ public class Form extends AppCompatActivity implements RadioGroup.OnCheckedChang
         }
 
         if (v.getId() == R.id.btnsubmit) {
-
+            user.add(new User(name1, dob1, gender, country, phone1, email1, resID));
+            Toast.makeText(this, "User Added Successfully", Toast.LENGTH_SHORT).show();
         }
 
         if (v.getId() == R.id.btnview) {
-
+            Intent intent = new Intent(Form.this, ProfileList.class);
+            intent.putExtra("allprofiles", (Serializable) user);
+            startActivity(intent);
         }
     }
 
@@ -144,12 +157,12 @@ public class Form extends AppCompatActivity implements RadioGroup.OnCheckedChang
             return false;
         }
 
-        if (!Patterns.EMAIL_ADDRESS.matcher(email1).matches()){
+        if (!Patterns.EMAIL_ADDRESS.matcher(email1).matches()) {
             email.setError("Invalid Email");
             return false;
         }
 
-        if (TextUtils.isEmpty(imgg1)){
+        if (TextUtils.isEmpty(imgg1)) {
             imgg.setError("Enter Image");
             return false;
         }
