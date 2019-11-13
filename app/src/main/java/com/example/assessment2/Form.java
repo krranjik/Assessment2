@@ -40,9 +40,9 @@ public class Form extends AppCompatActivity implements RadioGroup.OnCheckedChang
     DatePickerDialog.OnDateSetListener mydatepicker = new DatePickerDialog.OnDateSetListener() {
         @Override
         public void onDateSet(DatePicker datePicker, int year, int month, int dayOfMonth) {
-            calendar.set(year, Calendar.YEAR, year);
-            calendar.set(month, Calendar.MONTH, month);
-            calendar.set(dayOfMonth, Calendar.DAY_OF_MONTH, dayOfMonth);
+            calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+            calendar.set(Calendar.MONTH, month);
+            calendar.set(Calendar.YEAR, year);
             String mydateFormat = "dd-MM-y";
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat(mydateFormat, Locale.getDefault());
             dob.setText(simpleDateFormat.format(calendar.getTime()));
@@ -105,11 +105,12 @@ public class Form extends AppCompatActivity implements RadioGroup.OnCheckedChang
                     calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)).show();
         }
 
-        if (v.getId() == R.id.btnsubmit) {
-            user.add(new User(name1, dob1, gender, country, phone1, email1, resID));
-            Toast.makeText(this, "User Added Successfully", Toast.LENGTH_SHORT).show();
+        if (validate()) {
+            if (v.getId() == R.id.btnsubmit) {
+                user.add(new User(name1, dob1, gender, country, phone1, email1, resID));
+                Toast.makeText(this, "User Added Successfully", Toast.LENGTH_SHORT).show();
+            }
         }
-
         if (v.getId() == R.id.btnview) {
             Intent intent = new Intent(Form.this, ProfileList.class);
             intent.putExtra("allprofiles", (Serializable) user);
@@ -148,6 +149,11 @@ public class Form extends AppCompatActivity implements RadioGroup.OnCheckedChang
         }
 
         if (TextUtils.isEmpty(country)) {
+            Toast.makeText(this, "Select Country", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if (country.equals("<--Select Your Country-->")) {
             Toast.makeText(this, "Select Country", Toast.LENGTH_SHORT).show();
             return false;
         }
