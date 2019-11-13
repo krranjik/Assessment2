@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rlprodesign"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="30dp">
+
+    <ImageView
+        android:id="@+id/profileimg"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginRight="15dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/profile1" />
+
+    <TextView
+        android:id="@+id/profilename"
+        style="@style/profiletext"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/profileimg"
+        android:paddingTop="27dp"
+        android:text="Kritik Ranjit" />
+
+</RelativeLayout>
